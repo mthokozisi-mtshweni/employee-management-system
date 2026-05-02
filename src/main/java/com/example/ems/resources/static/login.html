@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Employee Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Container */
+        .login-container {
+            display: flex;
+            width: 1000px;
+            max-width: 90%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Left Side - Image Section */
+        .login-image {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+        }
+
+        .image-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-image h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .login-image p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .image-content img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        /* Right Side - Form Section */
+        .login-form {
+            flex: 1;
+            padding: 50px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-form h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .login-form .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Input icons */
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .input-icon input {
+            padding-left: 45px;
+        }
+
+        /* Remember me & Forgot password */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .remember-me input {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* Login Button */
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Register Link */
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert.error {
+            background-color: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+            display: block;
+        }
+
+        .alert.success {
+            background-color: #efe;
+            color: #3c3;
+            border: 1px solid #cfc;
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                width: 95%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .login-image {
+                padding: 30px;
+            }
+
+            .login-image h2 {
+                font-size: 24px;
+            }
+
+            .login-form {
+                padding: 30px;
+            }
+
+            .login-form h1 {
+                font-size: 24px;
+            }
+        }
+
+        /* Demo credentials hint */
+        .demo-hint {
+            background: #f0f4ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #667eea;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Left Side - Image Section -->
+        <div class="login-image">
+            <div class="image-content">
+                <div style="font-size: 80px;">🏢</div>
+                <h2>Welcome Back!</h2>
+                <p>Manage your workforce efficiently<br>with our Employee Management System</p>
+                <div style="margin-top: 20px;">
+                    <div style="display: inline-block; margin: 0 10px;">✓ Employee Tracking</div>
+                    <div style="display: inline-block; margin: 0 10px;">✓ Payroll Management</div>
+                    <div style="display: inline-block; margin: 0 10px;">✓ Performance Reviews</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Login/Register Form -->
+        <div class="login-form">
+            <!-- Login Form -->
+            <div id="loginFormContainer">
+                <h1>Login</h1>
+                <p class="subtitle">Please enter your credentials to continue</p>
+
+                <div id="errorAlert" class="alert error"></div>
+                <div id="successAlert" class="alert success"></div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-icon">
+                            <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%);">📧</span>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required style="padding-left: 45px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-icon">
+                            <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%);">🔒</span>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required style="padding-left: 45px;">
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe"> Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn">Sign In</button>
+
+                    <div class="register-link">
+                        Don't have an account? <a id="showRegisterBtn">Create an account</a>
+                    </div>
+
+                    <div class="demo-hint">
+                        <strong>Demo Credentials:</strong> admin@ems.com / admin123
+                    </div>
+                </form>
+            </div>
+
+            <!-- Register Form (Hidden by default) -->
+            <div id="registerFormContainer" style="display: none;">
+                <h1>Create Account</h1>
+                <p class="subtitle">Fill in your details to get started</p>
+
+                <div id="registerErrorAlert" class="alert error"></div>
+                <div id="registerSuccessAlert" class="alert success"></div>
+
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-icon">
+                            <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%);">👤</span>
+                            <input type="text" id="regFullName" placeholder="Enter your full name" required style="padding-left: 45px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-icon">
+                            <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%);">📧</span>
+                            <input type="email" id="regEmail" placeholder="Enter your email" required style="padding-left: 45px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-icon">
+                            <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%);">🔒</span>
+                            <input type="password" id="regPassword" placeholder="Create a password (min 4 characters)" required style="padding-left: 45px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div class="input-icon">
+                            <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%);">✓</span>
+                            <input type="password" id="regConfirmPassword" placeholder="Confirm your password" required style="padding-left: 45px;">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-btn">Create Account</button>
+
+                    <div class="register-link">
+                        Already have an account? <a id="showLoginBtn">Sign In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize users in localStorage if not exists
+        if (!localStorage.getItem('users')) {
+            const defaultUsers = [
+                { fullName: "Admin User", email: "admin@ems.com", password: "admin123" }
+            ];
+            localStorage.setItem('users', JSON.stringify(defaultUsers));
+        }
+
+        // Initialize employees in localStorage if not exists
+        if (!localStorage.getItem('employees')) {
+            const defaultEmployees = [
+                { id: 1, firstName: "John", lastName: "Doe", email: "john.doe@example.com", department: "IT", salary: 85000 },
+                { id: 2, firstName: "Jane", lastName: "Smith", email: "jane.smith@example.com", department: "HR", salary: 65000 },
+                { id: 3, firstName: "Bob", lastName: "Wilson", email: "bob.wilson@example.com", department: "Finance", salary: 95000 },
+                { id: 4, firstName: "Alice", lastName: "Brown", email: "alice.brown@example.com", department: "Marketing", salary: 55000 },
+                { id: 5, firstName: "Charlie", lastName: "Johnson", email: "charlie.johnson@example.com", department: "IT", salary: 75000 }
+            ];
+            localStorage.setItem('employees', JSON.stringify(defaultEmployees));
+            localStorage.setItem('nextId', '6');
+        }
+
+        // DOM Elements
+        const loginContainer = document.getElementById('loginFormContainer');
+        const registerContainer = document.getElementById('registerFormContainer');
+        const errorAlert = document.getElementById('errorAlert');
+        const successAlert = document.getElementById('successAlert');
+        const registerErrorAlert = document.getElementById('registerErrorAlert');
+        const registerSuccessAlert = document.getElementById('registerSuccessAlert');
+
+        // Show Register Form
+        document.getElementById('showRegisterBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            loginContainer.style.display = 'none';
+            registerContainer.style.display = 'block';
+            clearAlerts();
+        });
+
+        // Show Login Form
+        document.getElementById('showLoginBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            registerContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            clearAlerts();
+        });
+
+        function clearAlerts() {
+            errorAlert.style.display = 'none';
+            successAlert.style.display = 'none';
+            registerErrorAlert.style.display = 'none';
+            registerSuccessAlert.style.display = 'none';
+        }
+
+        // Handle Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            errorAlert.style.display = 'none';
+            successAlert.style.display = 'none';
+            
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                successAlert.textContent = 'Login successful! Redirecting...';
+                successAlert.style.display = 'block';
+                
+                if (rememberMe) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('userFullName', user.fullName);
+                } else {
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('userEmail', email);
+                    sessionStorage.setItem('userFullName', user.fullName);
+                }
+                
+                setTimeout(function() {
+                    window.location.href = '/dashboard.html';
+                }, 1000);
+            } else {
+                errorAlert.textContent = 'Invalid email or password. Please try again.';
+                errorAlert.style.display = 'block';
+            }
+        });
+        
+        // Handle Registration
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('regFullName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            
+            registerErrorAlert.style.display = 'none';
+            registerSuccessAlert.style.display = 'none';
+            
+            if (password.length < 4) {
+                registerErrorAlert.textContent = 'Password must be at least 4 characters long.';
+                registerErrorAlert.style.display = 'block';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                registerErrorAlert.textContent = 'Passwords do not match.';
+                registerErrorAlert.style.display = 'block';
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('users'));
+            
+            if (users.find(u => u.email === email)) {
+                registerErrorAlert.textContent = 'Email already registered. Please login.';
+                registerErrorAlert.style.display = 'block';
+                return;
+            }
+            
+            // Add new user
+            users.push({ fullName, email, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            registerSuccessAlert.textContent = 'Account created successfully! Please login.';
+            registerSuccessAlert.style.display = 'block';
+            
+            // Clear form
+            document.getElementById('regFullName').value = '';
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regConfirmPassword').value = '';
+            
+            // Switch to login after 2 seconds
+            setTimeout(function() {
+                registerContainer.style.display = 'none';
+                loginContainer.style.display = 'block';
+                registerSuccessAlert.style.display = 'none';
+            }, 2000);
+        });
+        
+        // Check if user is already logged in
+        if (localStorage.getItem('isLoggedIn') === 'true' || sessionStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = '/dashboard.html';
+        }
+        
+        // Forgot password link
+        document.querySelector('.forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Please contact your administrator to reset your password.');
+        });
+        
+        // Auto-fill demo credentials on click
+        document.querySelector('.demo-hint').addEventListener('click', function() {
+            document.getElementById('email').value = 'admin@ems.com';
+            document.getElementById('password').value = 'admin123';
+        });
+    </script>
+</body>
+</html>
